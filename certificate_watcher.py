@@ -45,7 +45,11 @@ def parse_args():
         help="Add OK lines if all tests are OK",
     )
     parser.add_argument(
-        "--csv", "-c", action="store_true", help="Output as coma-separated values."
+        "--csv", "-c",
+        nargs='?',
+        const=',',
+        default=False,
+        type=str, help="Output as coma-separated values, optionnal value for delimiter possible default ','"
     )
     parser.add_argument(
         "--attention",
@@ -204,7 +208,7 @@ def main():
     """Command-line tool (certificate_watcher) entry point."""
     args = parse_args()
     if args.csv:
-        writer = csv.writer(sys.stdout, delimiter=",")
+        writer = csv.writer(sys.stdout, delimiter=args.csv)
         writer.writerow(["Service", "Status"])
         writerow = writer.writerow
     else:
